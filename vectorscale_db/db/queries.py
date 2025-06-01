@@ -1,6 +1,7 @@
 from sqlalchemy import select
 from sqlalchemy.orm import Session
-from db.models import engine, Images
+from sqlalchemy.engine import Engine
+from models import engine, Images, Games
 import numpy as np
 
 # reusable function to insert data into the table
@@ -49,3 +50,14 @@ similar_images = find_k_images(engine, k, image)
 # optional path to similar images
 for sim in similar_images:
     print(f"ID: {sim.id}, Path: {sim.image_path}")
+
+
+# find the images with the similarity score greater than 0.9
+def find_images_with_similarity_score_greater_than(engine: sqlalchemy.Engine, similarity_score: float, orginal_image: Images) -> list[Images]:
+    with Session(engine) as session:
+        result = session.execute(
+            select(Images)
+            .filter(Images.image_embedding.cosine_similarity(orginal_image.image_embedding) > similarity_score), 
+            execution_options={"prebuffer_rows": True}
+        )
+        return result
