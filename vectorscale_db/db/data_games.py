@@ -2,11 +2,10 @@ from datasets import load_dataset
 from sentence_transformers import SentenceTransformer
 from tqdm import tqdm
 from sqlalchemy.orm import Session
-from models import Games, Base, engine
-from sqlalchemy import select  # added
+from models import Games, engine
+from sqlalchemy import select
 from sqlalchemy.engine import Engine
-from typing import Optional    # added
-
+from typing import Optional
 
 checkpoint = "distiluse-base-multilingual-cased-v2"
 model = SentenceTransformer(checkpoint)
@@ -85,16 +84,18 @@ def find_game(
         game = result.scalars().first()
         
         return game
-    
-game = find_game(engine, "This is a game about a hero who saves the world", price=10)
-print(f"Game: {game.name}")
-print(f"Description: {game.description}")
 
-game = find_game(engine, game_description="Home decorating", price=20)
-print(f"Game: {game.name}")
-print(f"Description: {game.description}")
+if __name__ == "__main__": # added, prevent auto-run on import
 
-# change in the filtering requirements:
-game = find_game(engine, game_description="Home decorating", mac=True, price=5)
-print(f"Game: {game.name}")
-print(f"Description: {game.description}")
+    game = find_game(engine, "This is a game about a hero who saves the world", price=10)
+    print(f"Game: {game.name}")
+    print(f"Description: {game.description}")
+
+    game = find_game(engine, game_description="Home decorating", price=20)
+    print(f"Game: {game.name}")
+    print(f"Description: {game.description}")
+
+    # change in the filtering requirements:
+    game = find_game(engine, game_description="Home decorating", mac=True, price=5)
+    print(f"Game: {game.name}")
+    print(f"Description: {game.description}")

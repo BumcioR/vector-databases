@@ -2,6 +2,7 @@ from sqlalchemy import create_engine, Integer, String, List, Float, Boolean
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from pgvector.sqlalchemy import Vector
 from sqlalchemy.engine import URL
+from typing import List 
 
 # Create URL to SQLAlchemy db
 db_url = URL.create(
@@ -23,7 +24,7 @@ class Base(DeclarativeBase):
 # Create the table definition
 class Images(Base):
     __tablename__ = "images"
-    VECTOR_LENGTH = 512 # embeding dimention
+    VECTOR_LENGTH = 512 # embedding dimention
     # Primary key
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     # image path - we will use it to store the path to the image file, after similarity search we can use it to retrieve the image and display it

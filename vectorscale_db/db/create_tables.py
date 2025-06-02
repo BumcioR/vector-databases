@@ -1,4 +1,4 @@
-from db.models import Base, engine
+from models import Base, engine
 
 def create_tables():
     """
