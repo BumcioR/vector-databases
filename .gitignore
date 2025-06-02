@@ -1,0 +1,12 @@
+# venv dla uv
+.venv/
+
+# cache Pythona
+__pycache__/
+*.pyc
+
+# pliki edytorów
+.vscode/
+.idea/
+*.swp
+.DS_Store
